@@ -1,15 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class LinkService {
-  private links: string[] = [];
-  handleLink(url: string) {
-    this.links.push(url);
+  constructor(private readonly prisma: PrismaService) {}
 
-    return { message: 'URL Received', url };
+  async createLink(url: string) {
+    return await this.prisma.link.create({
+      data: { url },
+    });
   }
 
-  getAllLinks() {
-    return this.links.map((url, index) => ({ id: index + 1, url }));
+  async getAllLinks() {
+    return await this.prisma.link.findMany();
   }
 }

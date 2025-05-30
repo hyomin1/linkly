@@ -7,7 +7,7 @@ export class LinkController {
 
   @Post()
   create(@Body() body: { url: string }) {
-    return this.linkService.handleLink(body.url);
+    return this.linkService.createLink(body.url);
   }
 
   @Get()
