@@ -7,14 +7,22 @@ export default function LinkInputForm() {
 
   const { mutate, isPending, isSuccess, error } = useCreateLink();
 
+  const formatUrl = (url: string) => {
+    if (!/^https?:\/\//i.test(url)) {
+      return `https://${url}`;
+    }
+    return url;
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!title.trim() || !url.trim()) {
       alert('제목과 URL을 모두 입력해주세요.');
       return;
     }
+    const formattedUrl = formatUrl(url);
     mutate(
-      { url, title },
+      { url: formattedUrl, title },
       {
         onSuccess: () => {
           setTitle('');
@@ -34,8 +42,8 @@ export default function LinkInputForm() {
         className='border px-3 py-2 rounded w-full'
       />
       <input
-        type='url'
-        placeholder='https://example.com'
+        type='text'
+        placeholder='예: https://example.com 또는 example.com'
         value={url}
         onChange={(e) => setUrl(e.target.value)}
         className='border px-3 py-2 rounded w-full'
