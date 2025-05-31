@@ -2,8 +2,8 @@ import LinkInputForm from '../../features/links/components/LinkInputForm';
 
 export default function AddLink() {
   return (
-    <div className='p-6 space-y-6 max-w-xl mx-auto'>
-      <h2 className='text-2xl font-bold'>링크 등록</h2>
+    <div className='max-w-screen-sm mx-auto p-4'>
+      <h2 className='text-2xl font-bold text-white mb-4'>링크 추가</h2>
       <LinkInputForm />
     </div>
   );
