@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateLinkDto } from './dto/create-link.dto';
 
 @Injectable()
 export class LinkService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createLink(url: string) {
+  async create(dto: CreateLinkDto) {
     return await this.prisma.link.create({
-      data: { url },
+      data: { url: dto.url, title: dto.title },
     });
   }
 

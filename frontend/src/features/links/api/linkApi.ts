@@ -2,6 +2,7 @@ import apiClient from '../../../lib/apiClient';
 
 interface Link {
   url: string;
+  title: string;
 }
 
 export async function createLink(link: Link) {
