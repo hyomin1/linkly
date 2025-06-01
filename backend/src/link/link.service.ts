@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { Link } from '@prisma/client';
+import { UpdateLinkDto } from './dto/update-link.dto';
 
 @Injectable()
 export class LinkService {
@@ -25,5 +26,18 @@ export class LinkService {
 
   async getAllLinks() {
     return await this.prisma.link.findMany();
+  }
+
+  async deleteLink(id: number): Promise<void> {
+    await this.prisma.link.delete({
+      where: { id },
+    });
+  }
+
+  async updateLink(id: number, dto: UpdateLinkDto): Promise<Link> {
+    return this.prisma.link.update({
+      where: { id },
+      data: dto,
+    });
   }
 }

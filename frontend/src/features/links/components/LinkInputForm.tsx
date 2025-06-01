@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { Plus, Link as LinkIcon } from 'lucide-react';
 import { useCreateLink } from '../hooks/useCreateLink';
-import ErrorMessage from '../../../components/ui/ErrorMessage';
-import SuccessMessage from '../../../components/ui/SuccessMessage';
 
 export default function LinkInputForm() {
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
 
-  const { mutate, isPending, isSuccess, error } = useCreateLink();
+  const { mutate, isPending } = useCreateLink();
 
   const formatUrl = (url: string) => {
     if (!/^https?:\/\//i.test(url)) {
@@ -87,9 +85,6 @@ export default function LinkInputForm() {
             </>
           )}
         </button>
-
-        {isSuccess && <SuccessMessage />}
-        {error && <ErrorMessage message={error.message} />}
       </form>
     </div>
   );
