@@ -1,6 +1,8 @@
-import { Globe, MoreVertical, Edit2, Trash2 } from 'lucide-react';
+import { Globe, MoreVertical } from 'lucide-react';
 import { useState } from 'react';
-import EditLinkModal from './EditLinkModal';
+import EditLinkForm from './EditLinkForm';
+import Modal from '../../../components/common/Modal';
+import DropdownMenu from '../../../components/ui/DropdownMenu';
 
 interface Props {
   id: number;
@@ -44,8 +46,7 @@ export default function LinkCard({ id, title, url, onDelete, onEdit }: Props) {
           </div>
         </div>
 
-        <div className='flex items-center space-x-2 flex-shrink-0'>
-          {/* 메뉴 버튼 */}
+        <div className='flex items-center space-x-2 flex-shrink-0 '>
           <div className='relative'>
             <button
               onClick={() => setShowMenu(!showMenu)}
@@ -53,42 +54,33 @@ export default function LinkCard({ id, title, url, onDelete, onEdit }: Props) {
             >
               <MoreVertical className='w-4 h-4' />
             </button>
-
-            {/* 드롭다운 메뉴 */}
             {showMenu && (
-              <div className='absolute right-0 top-full mt-2 w-36 bg-gray-700 border border-gray-600 rounded-lg shadow-lg z-10'>
-                <button
-                  onClick={() => {
-                    setShowMenu(false);
-                    setIsEditing(true);
-                  }}
-                  className='w-full flex items-center space-x-2 px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-600 rounded-t-lg transition-colors'
-                >
-                  <Edit2 className='w-4 h-4' />
-                  <span>수정</span>
-                </button>
-                <button
-                  onClick={() => {
-                    setShowMenu(false);
-                    onDelete(id);
-                  }}
-                  className='w-full flex items-center space-x-2 px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-gray-600 rounded-b-lg transition-colors'
-                >
-                  <Trash2 className='w-4 h-4' />
-                  <span>삭제</span>
-                </button>
-              </div>
+              <DropdownMenu
+                onEdit={() => {
+                  setShowMenu(false);
+                  setIsEditing(true);
+                }}
+                onDelete={() => {
+                  setShowMenu(false);
+                  onDelete(id);
+                }}
+              />
             )}
           </div>
         </div>
       </div>
       {isEditing && (
-        <EditLinkModal
-          initialTitle={title}
-          initialUrl={url}
-          onClose={() => setIsEditing(false)}
-          onSave={(data) => onEdit({ id, data })}
-        />
+        <Modal onClose={() => setIsEditing(false)}>
+          <EditLinkForm
+            initialTitle={title}
+            initialUrl={url}
+            onSave={(data) => {
+              onEdit({ id, data });
+              setIsEditing(false);
+            }}
+            onClose={() => setIsEditing(false)}
+          />
+        </Modal>
       )}
     </li>
   );
