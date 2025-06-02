@@ -3,11 +3,9 @@ import { useState } from 'react';
 import EditLinkForm from './EditLinkForm';
 import Modal from '../../../components/common/Modal';
 import DropdownMenu from '../../../components/ui/DropdownMenu';
+import type { Link } from '../../../types/link';
 
-interface Props {
-  id: number;
-  title: string;
-  url: string;
+interface Props extends Pick<Link, 'id' | 'title' | 'url'> {
   onDelete: (id: number) => void;
   onEdit: (args: {
     id: number;

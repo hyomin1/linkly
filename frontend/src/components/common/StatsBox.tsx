@@ -1,13 +1,17 @@
 import { Bookmark, Plus, Clock } from 'lucide-react';
+import { useGetLinks } from '../../features/links/hooks/useGetLinks';
 
 export default function StatsBox() {
+  const { data: links } = useGetLinks();
+
+  const total = links?.length;
   return (
     <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-8'>
       <div className='bg-gray-800 rounded-xl p-6 border border-gray-700'>
         <div className='flex items-center justify-between'>
           <div>
             <p className='text-gray-400 text-sm'>총 링크</p>
-            <p className='text-3xl font-bold mt-1'>24</p>
+            <p className='text-3xl font-bold mt-1'>{total}</p>
           </div>
           <Bookmark className='w-8 h-8 text-blue-400' />
         </div>
