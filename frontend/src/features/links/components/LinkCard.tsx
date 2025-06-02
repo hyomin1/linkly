@@ -56,16 +56,14 @@ export default function LinkCard({ link, onDelete, onEdit }: Props) {
         rel='noopener noreferrer'
         className='block group/link'
       >
-        {image && (
-          <div className='relative overflow-hidden'>
-            <img
-              src={image}
-              alt={title}
-              className='w-full h-36 sm:h-48 object-cover group-hover/link:scale-105 transition-transform duration-500'
-            />
-            <div className='absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/link:opacity-100 transition-opacity duration-300' />
-          </div>
-        )}
+        <div className='relative overflow-hidden'>
+          <img
+            src={image ?? '/linkly_icon.png'}
+            alt={title}
+            className='w-full h-36 sm:h-48 object-cover group-hover/link:scale-105 transition-transform duration-500'
+          />
+          <div className='absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/link:opacity-100 transition-opacity duration-300' />
+        </div>
 
         <div className='px-4 sm:px-5 pt-4 sm:pt-5 space-y-2 sm:space-y-3'>
           {siteName ? (
