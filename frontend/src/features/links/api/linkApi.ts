@@ -1,11 +1,7 @@
 import apiClient from '../../../lib/apiClient';
+import type { Link } from '../../../types/link';
 
-interface Link {
-  url: string;
-  title: string;
-}
-
-export async function createLink(link: Link) {
+export async function createLink(link: Pick<Link, 'url'>) {
   const response = await apiClient.post('/links', link);
   return response.data;
 }

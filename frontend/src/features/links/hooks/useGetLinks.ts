@@ -1,12 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getLinks } from '../api/linkApi';
-
-export interface Link {
-  id: number;
-  url: string;
-  title: string;
-  createdAt: string;
-}
+import type { Link } from '../../../types/link';
 
 export function useGetLinks() {
   return useQuery<Link[]>({

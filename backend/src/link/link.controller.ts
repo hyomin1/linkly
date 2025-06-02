@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { LinkService } from './link.service';
 import { CreateLinkDto } from './dto/create-link.dto';
@@ -37,5 +38,10 @@ export class LinkController {
     @Body() updateLinkDto: UpdateLinkDto,
   ): Promise<Link> {
     return this.linkService.updateLink(+id, updateLinkDto);
+  }
+
+  @Get('metadata')
+  async getMetadata(@Query('url') url: string) {
+    return this.linkService.extractMetadata(url);
   }
 }

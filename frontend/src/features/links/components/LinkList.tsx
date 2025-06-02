@@ -25,9 +25,7 @@ export default function LinkList() {
       {links.map((link) => (
         <LinkCard
           key={link.id}
-          id={link.id}
-          title={link.title}
-          url={link.url}
+          link={link}
           onDelete={deleteLink}
           onEdit={updateLink}
         />
