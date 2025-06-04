@@ -1,6 +1,9 @@
 import { Bookmark } from 'lucide-react';
+import LogoutButton from './LogoutButton';
+import { useCurrentUser } from '../../features/user/hooks/useCurrentUser';
 
 export default function Header() {
+  const { data: user } = useCurrentUser();
   return (
     <header className='bg-gray-800 border-b border-gray-700'>
       <div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
@@ -13,6 +16,16 @@ export default function Header() {
               LinkBox
             </h1>
           </div>
+          {user && (
+            <div className='flex items-center'>
+              <img
+                src={user.picture}
+                alt='profile'
+                className='w-8 h-8 rounded-full border border-gray-600 object-cover'
+              />
+              <LogoutButton />
+            </div>
+          )}
         </div>
       </div>
     </header>

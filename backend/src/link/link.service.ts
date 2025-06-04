@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { Link } from '@prisma/client';
@@ -10,7 +14,7 @@ import * as cheerio from 'cheerio';
 export class LinkService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(dto: CreateLinkDto): Promise<Link> {
+  async create(dto: CreateLinkDto, userId: number): Promise<Link> {
     const formattedUrl = dto.url.startsWith('http')
       ? dto.url
       : `https://${dto.url}`;
@@ -32,21 +36,41 @@ export class LinkService {
         description,
         image,
         siteName,
+        user: {
+          connect: { id: userId },
+        },
       },
     });
   }
 
-  async getAllLinks() {
-    return await this.prisma.link.findMany();
-  }
-
-  async deleteLink(id: number): Promise<void> {
-    await this.prisma.link.delete({
-      where: { id },
+  async getAllLinksByUserId(userId: number): Promise<Link[]> {
+    return await this.prisma.link.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
     });
   }
 
-  async updateLink(id: number, dto: UpdateLinkDto): Promise<Link> {
+  async deleteLink(id: number, userId: number): Promise<void> {
+    const link = await this.prisma.link.delete({
+      where: { id },
+    });
+    if (!link || link.userId !== userId) {
+      throw new ForbiddenException('삭제 권한이 없습니다.');
+    }
+    await this.prisma.link.delete({ where: { id } });
+  }
+
+  async updateLink(
+    id: number,
+    dto: UpdateLinkDto,
+    userId: number,
+  ): Promise<Link> {
+    const link = await this.prisma.link.findUnique({ where: { id } });
+
+    if (!link || link.userId !== userId) {
+      throw new ForbiddenException('수정 권한이 없습니다.');
+    }
+
     return this.prisma.link.update({
       where: { id },
       data: dto,

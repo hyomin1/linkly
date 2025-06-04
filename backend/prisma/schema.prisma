@@ -17,4 +17,17 @@ model Link {
   image String?
   siteName String?
   createdAt DateTime @default(now())
+  userId  Int
+  user  User  @relation(fields: [userId], references:[id])
+}
+
+model User {
+  id  Int @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  picture String?
+  provider String
+  links Link[]
+  refreshToken String?
+  createdAt DateTime @default(now())
 }
