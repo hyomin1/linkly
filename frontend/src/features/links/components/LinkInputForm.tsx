@@ -35,7 +35,6 @@ export default function LinkInputForm() {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
-    console.log('🔥 drop 발생');
 
     const droppedUrl =
       e.dataTransfer.getData('text/uri-list') ||
