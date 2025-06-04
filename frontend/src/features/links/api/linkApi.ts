@@ -2,13 +2,13 @@ import apiClient from '../../../lib/apiClient';
 import type { Link } from '../../../types/link';
 
 export async function createLink(link: Pick<Link, 'url'>) {
-  const response = await apiClient.post('/links', link);
-  return response.data;
+  const { data } = await apiClient.post('/links', link);
+  return data;
 }
 
 export async function getLinks() {
-  const response = await apiClient.get('/links');
-  return response.data;
+  const { data } = await apiClient.get('/links');
+  return data;
 }
 
 export async function deleteLink(id: number) {
