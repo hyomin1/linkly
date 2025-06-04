@@ -18,13 +18,13 @@ export function setAuthCookies(
   res.cookie('access_token', accessToken, {
     httpOnly: true,
     secure: true,
-    sameSite: 'lax',
+    sameSite: 'none',
     maxAge: accessTokenExpireMs,
   });
   res.cookie('refresh_token', refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: 'lax',
+    sameSite: 'none',
     maxAge: refreshTokenExpireMs,
   });
   res.redirect(frontendUrl);
@@ -41,7 +41,7 @@ export function setAccessTokenCookie(
   res.cookie('access_token', accessToken, {
     httpOnly: true,
     secure: true,
-    sameSite: 'lax',
+    sameSite: 'none',
     maxAge: accessTokenExpireMs,
   });
 }
