@@ -28,7 +28,7 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
   ) {
     const clientID = configService.get<string>('KAKAO_CLIENT_ID')!;
     const clientSecret = configService.get<string>('KAKAO_CLIENT_SECRET')!;
-    const callbackURL = configService.get<string>('KAKAO_CALLBACK_URL')!;
+    const callbackURL = configService.get<string>('KAKAO_CALLBACK_URI')!;
     super({
       clientID,
       clientSecret,

@@ -4,7 +4,7 @@ export default function LoginButtons() {
     <div className='text-center space-y-3'>
       <button
         onClick={() =>
-          (window.location.href = 'http://localhost:3000/api/auth/google')
+          (window.location.href = import.meta.env.VITE_GOOGLE_REDIRECT_URI)
         }
         className='bg-white text-black font-medium px-4 py-2 rounded flex items-center gap-2 justify-center w-60 mx-auto'
       >
@@ -13,7 +13,7 @@ export default function LoginButtons() {
       </button>
       <button
         onClick={() =>
-          (window.location.href = 'http://localhost:3000/api/auth/kakao')
+          (window.location.href = import.meta.env.VITE_KAKAO_REDIRECT_URI)
         }
         className='bg-yellow-400 hover:bg-yellow-500 text-black font-medium px-4 py-2 rounded flex items-center gap-2 justify-center w-60 mx-auto'
       >
