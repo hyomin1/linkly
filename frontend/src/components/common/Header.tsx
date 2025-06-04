@@ -1,4 +1,5 @@
 import { Bookmark } from 'lucide-react';
+import LogoutButton from './LogoutButton';
 
 export default function Header() {
   return (
@@ -12,6 +13,7 @@ export default function Header() {
             <h1 className='text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>
               LinkBox
             </h1>
+            <LogoutButton />
           </div>
         </div>
       </div>
