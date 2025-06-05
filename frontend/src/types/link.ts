@@ -5,5 +5,6 @@ export interface Link {
   image: string;
   siteName: string;
   url: string;
+  isFavorite: boolean;
   createdAt: string;
 }

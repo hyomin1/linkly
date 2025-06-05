@@ -65,6 +65,20 @@ export class LinkController {
     return this.linkService.updateLink(+id, updateLinkDto, userId);
   }
 
+  @Patch(':id/favorite')
+  @UseGuards(JwtAuthGuard)
+  async toggleFavorite(
+    @Param('id') id: string,
+    @Req() req: RequestWithUser,
+  ): Promise<Link> {
+    return this.linkService.toggleFavorite(+id, req.user.id);
+  }
+
+  @Get('favorite')
+  @UseGuards(JwtAuthGuard)
+  async getFavoriteLinks(@Req() req: RequestWithUser): Promise<Link[]> {
+    return this.linkService.getFavoriteLinks(req.user.id);
+  }
   @Get('metadata')
   @UseGuards(JwtAuthGuard)
   async getMetadata(@Query('url') url: string) {
