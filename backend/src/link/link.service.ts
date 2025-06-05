@@ -2,6 +2,7 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateLinkDto } from './dto/create-link.dto';
@@ -51,12 +52,17 @@ export class LinkService {
   }
 
   async deleteLink(id: number, userId: number): Promise<void> {
-    const link = await this.prisma.link.delete({
+    const link = await this.prisma.link.findUnique({
       where: { id },
     });
-    if (!link || link.userId !== userId) {
+    if (!link) {
+      throw new NotFoundException('링크를 찾을 수 없습니다.');
+    }
+
+    if (link.userId !== userId) {
       throw new ForbiddenException('삭제 권한이 없습니다.');
     }
+
     await this.prisma.link.delete({ where: { id } });
   }
 

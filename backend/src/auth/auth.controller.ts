@@ -110,7 +110,7 @@ export class AuthController {
       }
     }
 
-    clearAuthCookies(res);
+    clearAuthCookies(res, this.configService);
 
     return { message: '로그아웃되었습니다' };
   }
