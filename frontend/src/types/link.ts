@@ -8,3 +8,5 @@ export interface Link {
   isFavorite: boolean;
   createdAt: string;
 }
+
+export type Favorite = 'all' | 'favorite';
