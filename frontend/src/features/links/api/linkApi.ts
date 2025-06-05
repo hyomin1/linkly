@@ -25,3 +25,13 @@ export async function updateLink({
   const response = await apiClient.patch(`/links/${id}`, data);
   return response.data;
 }
+
+export async function toggleFavorite(id: number) {
+  const { data } = await apiClient.patch(`/links/${id}/favorite`);
+  return data;
+}
+
+export async function getFavoriteLinks() {
+  const { data } = await apiClient.get('/links/favorite');
+  return data;
+}

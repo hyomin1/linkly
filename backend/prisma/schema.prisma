@@ -16,6 +16,7 @@ model Link {
   description String?
   image String?
   siteName String?
+  isFavorite Boolean @default(false)
   createdAt DateTime @default(now())
   userId  Int
   user  User  @relation(fields: [userId], references:[id])

@@ -46,7 +46,27 @@ export function setAccessTokenCookie(
   });
 }
 
-export function clearAuthCookies(res: Response): void {
-  res.clearCookie('access_token');
-  res.clearCookie('refresh_token');
+export function clearAuthCookies(
+  res: Response,
+  configService: ConfigService,
+): void {
+  const accessTokenExpireMs = configService.get<number>(
+    'ACCESS_TOKEN_EXPIRE_MS',
+  )!;
+
+  const refreshTokenExpireMs = configService.get<number>(
+    'REFRESH_TOKEN_EXPIRE_MS',
+  )!;
+  res.clearCookie('access_token', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    maxAge: accessTokenExpireMs,
+  });
+  res.clearCookie('refresh_token', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    maxAge: refreshTokenExpireMs,
+  });
 }

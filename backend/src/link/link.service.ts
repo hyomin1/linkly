@@ -2,6 +2,7 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateLinkDto } from './dto/create-link.dto';
@@ -46,17 +47,22 @@ export class LinkService {
   async getAllLinksByUserId(userId: number): Promise<Link[]> {
     return await this.prisma.link.findMany({
       where: { userId },
-      orderBy: { createdAt: 'desc' },
+      orderBy: [{ isFavorite: 'desc' }, { createdAt: 'desc' }],
     });
   }
 
   async deleteLink(id: number, userId: number): Promise<void> {
-    const link = await this.prisma.link.delete({
+    const link = await this.prisma.link.findUnique({
       where: { id },
     });
-    if (!link || link.userId !== userId) {
+    if (!link) {
+      throw new NotFoundException('링크를 찾을 수 없습니다.');
+    }
+
+    if (link.userId !== userId) {
       throw new ForbiddenException('삭제 권한이 없습니다.');
     }
+
     await this.prisma.link.delete({ where: { id } });
   }
 
@@ -74,6 +80,24 @@ export class LinkService {
     return this.prisma.link.update({
       where: { id },
       data: dto,
+    });
+  }
+
+  async toggleFavorite(id: number, userId: number): Promise<Link> {
+    const link = await this.prisma.link.findUnique({ where: { id } });
+    if (!link || link.userId !== userId) {
+      throw new ForbiddenException('수정 권한이 없습니다.');
+    }
+    return this.prisma.link.update({
+      where: { id },
+      data: { isFavorite: !link.isFavorite },
+    });
+  }
+
+  async getFavoriteLinks(userId: number): Promise<Link[]> {
+    return await this.prisma.link.findMany({
+      where: { userId, isFavorite: true },
+      orderBy: { createdAt: 'desc' },
     });
   }
 
