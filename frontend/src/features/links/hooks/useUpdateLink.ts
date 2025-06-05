@@ -9,6 +9,7 @@ export function useUpdateLink() {
     mutationFn: updateLink,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['links'] });
+      queryClient.invalidateQueries({ queryKey: ['favoriteLinks'] });
       toast.success('링크가 수정되었습니다!');
     },
     onError: () => {

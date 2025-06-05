@@ -1,4 +1,4 @@
-import { Globe, MoreVertical, ExternalLink, Bookmark } from 'lucide-react';
+import { Globe, ExternalLink, Bookmark } from 'lucide-react';
 import { useState } from 'react';
 import EditLinkForm from './EditLinkForm';
 import Modal from '../../../components/common/Modal';
@@ -17,7 +17,6 @@ interface Props {
 
 export default function LinkCard({ link, onDelete, onEdit }: Props) {
   const { id, url, title, description, image, siteName, isFavorite } = link;
-  const [showMenu, setShowMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { mutate: toggleFavoriteMutate } = useToggleFavorite();
 
@@ -31,22 +30,20 @@ export default function LinkCard({ link, onDelete, onEdit }: Props) {
 
   return (
     <li className='group relative bg-gray-800 border border-gray-700 rounded-xl overflow-visible hover:shadow-lg hover:shadow-black/50 hover:border-gray-600 transition-all duration-300'>
-      {/* 즐겨찾기 버튼 */}
-      <div className='absolute top-3 right-3 z-10'>
+      <div className='absolute top-3 right-3 z-10 flex gap-1'>
         <button
           onClick={() => toggleFavoriteMutate(id)}
           className='p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-400 hover:text-yellow-400'
           title='즐겨찾기'
         >
           <Bookmark
-            className={`w-4 h-4 ${
-              isFavorite ? 'text-yellow-400' : 'text-gray-400'
-            }`}
+            className='w-4 h-4'
+            color={isFavorite ? '#facc15' : '#9ca3af'}
+            fill={isFavorite ? '#facc15' : 'none'}
           />
         </button>
       </div>
 
-      {/* 링크 전체 영역 */}
       <a
         href={url}
         target='_blank'
@@ -63,7 +60,6 @@ export default function LinkCard({ link, onDelete, onEdit }: Props) {
         </div>
 
         <div className='px-4 sm:px-5 pt-4 sm:pt-5 space-y-2 sm:space-y-3'>
-          {/* siteName + 드롭다운 메뉴 줄 */}
           <div className='flex items-center justify-between'>
             {siteName ? (
               <span className='inline-block text-blue-400 bg-blue-900/30 px-2 py-0.5 rounded-full text-xs font-medium max-w-[70%] truncate'>
@@ -75,37 +71,10 @@ export default function LinkCard({ link, onDelete, onEdit }: Props) {
                 <span className='truncate'>{getDomain(url)}</span>
               </div>
             )}
-
-            {/* 드롭다운 버튼 */}
-            <div className='relative z-20'>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault(); // ✅ 링크 이동 방지
-
-                  setShowMenu(!showMenu);
-                }}
-                className='p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-400 hover:text-white'
-                title='더보기'
-              >
-                <MoreVertical className='w-4 h-4' />
-              </button>
-
-              {showMenu && (
-                <div className='absolute right-0 mt-2'>
-                  <DropdownMenu
-                    onEdit={() => {
-                      setShowMenu(false);
-                      setIsEditing(true);
-                    }}
-                    onDelete={() => {
-                      setShowMenu(false);
-                      onDelete(id);
-                    }}
-                  />
-                </div>
-              )}
-            </div>
+            <DropdownMenu
+              onEdit={() => setIsEditing(true)}
+              onDelete={() => onDelete(id)}
+            />
           </div>
 
           <h3 className='text-white text-base sm:text-lg font-bold line-clamp-2 group-hover/link:text-blue-400 transition-colors duration-200 leading-tight'>
@@ -115,7 +84,6 @@ export default function LinkCard({ link, onDelete, onEdit }: Props) {
         </div>
       </a>
 
-      {/* 설명 */}
       <div className='px-4 sm:px-5 pb-4 sm:pb-5 space-y-2'>
         {description && (
           <p className='text-gray-400 text-sm line-clamp-2 leading-relaxed'>
@@ -131,7 +99,6 @@ export default function LinkCard({ link, onDelete, onEdit }: Props) {
         )}
       </div>
 
-      {/* 수정 모달 */}
       {isEditing && (
         <Modal onClose={() => setIsEditing(false)}>
           <EditLinkForm
