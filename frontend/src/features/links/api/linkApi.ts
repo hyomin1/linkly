@@ -1,7 +1,9 @@
 import apiClient from '../../../lib/apiClient';
-import type { Link } from '../../../types/link';
 
-export async function createLink(link: Pick<Link, 'url'>) {
+export async function createLink(link: {
+  url: string;
+  categoryId: number | null;
+}) {
   const { data } = await apiClient.post('/links', link);
   return data;
 }
@@ -20,7 +22,7 @@ export async function updateLink({
   data,
 }: {
   id: number;
-  data: { title?: string; url?: string };
+  data: { title?: string; url?: string; categoryId: number | null };
 }) {
   const response = await apiClient.patch(`/links/${id}`, data);
   return response.data;

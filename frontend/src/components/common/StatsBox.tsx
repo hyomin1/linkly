@@ -1,14 +1,16 @@
 import { Bookmark, Star, Folder } from 'lucide-react';
 import { useGetLinks } from '../../features/links/hooks/useGetLinks';
 import { useFavoriteLinks } from '../../features/links/hooks/useFavoriteLinks';
+import { useGetCategories } from '../../features/categories/hooks/useGetCategories';
 
 export default function StatsBox() {
   const { data: links } = useGetLinks();
   const { data: favorites } = useFavoriteLinks();
+  const { data: categories } = useGetCategories();
 
   const total = links?.length || 0;
   const favoritesCount = favorites?.length || 0;
-  const categoryCount = 0;
+  const categoryCount = categories?.length || 0;
   return (
     <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-8'>
       <div className='bg-gray-800 rounded-xl p-6 border border-gray-700'>

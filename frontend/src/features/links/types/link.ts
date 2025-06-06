@@ -7,4 +7,13 @@ export interface Link {
   url: string;
   isFavorite: boolean;
   createdAt: string;
+  categoryId: number | null;
 }
+
+export interface Category {
+  id: number;
+  name: string;
+  createdAt: string;
+}
+
+export type Favorite = 'all' | 'favorite';

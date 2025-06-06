@@ -1,5 +1,5 @@
 import { Bookmark } from 'lucide-react';
-import LogoutButton from './LogoutButton';
+import LogoutButton from '../common/LogoutButton';
 import { useCurrentUser } from '../../features/user/hooks/useCurrentUser';
 
 export default function Header() {
