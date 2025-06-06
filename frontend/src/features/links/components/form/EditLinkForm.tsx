@@ -1,20 +1,33 @@
 import { useState } from 'react';
+import type { Category } from '../../types/link';
+import CategorySelect from '../../../categories/components/CategorySelect';
 
 interface Props {
   initialTitle: string;
   initialUrl: string;
+  categories: Category[];
+  initialCategoryId: number | null;
   onClose: () => void;
-  onSave: (data: { title: string; url: string }) => void;
+  onSave: (data: {
+    title: string;
+    url: string;
+    categoryId: number | null;
+  }) => void;
 }
 
 export default function EditLinkForm({
   initialTitle,
   initialUrl,
+  categories,
+  initialCategoryId,
   onClose,
   onSave,
 }: Props) {
   const [title, setTitle] = useState(initialTitle);
   const [url, setUrl] = useState(initialUrl);
+  const [categoryId, setCategoryId] = useState<number | null>(
+    initialCategoryId
+  );
 
   return (
     <div className='bg-gray-900 border border-gray-700 rounded-xl p-6 shadow-lg'>
@@ -23,7 +36,7 @@ export default function EditLinkForm({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          onSave({ title, url });
+          onSave({ title, url, categoryId });
           onClose();
         }}
         className='space-y-4'
@@ -49,6 +62,11 @@ export default function EditLinkForm({
             required
           />
         </div>
+        <CategorySelect
+          categories={categories}
+          selectedId={categoryId}
+          onChange={setCategoryId}
+        />
 
         <div className='flex justify-end space-x-2 pt-2'>
           <button

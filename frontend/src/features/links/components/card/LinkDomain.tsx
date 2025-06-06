@@ -1,5 +1,5 @@
 import { Globe } from 'lucide-react';
-import { getDomain } from '../utils/extractDomain';
+import { getDomain } from '../../utils/extractDomain';
 interface Props {
   siteName?: string;
   url: string;

@@ -1,4 +1,4 @@
-import type { Favorite } from '../../../types/link';
+import type { Favorite } from '../types/link';
 
 interface TabOption {
   label: string;

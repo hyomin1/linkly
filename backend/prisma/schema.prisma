@@ -18,8 +18,12 @@ model Link {
   siteName String?
   isFavorite Boolean @default(false)
   createdAt DateTime @default(now())
+
   userId  Int
   user  User  @relation(fields: [userId], references:[id])
+
+  categoryId Int?
+  category Category? @relation(fields: [categoryId], references:[id])
 }
 
 model User {
@@ -29,6 +33,17 @@ model User {
   picture String?
   provider String
   links Link[]
+  categories Category[]
   refreshToken String?
   createdAt DateTime @default(now())
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String @unique
+
+  userId Int
+  user User @relation(fields: [userId], references:[id])
+
+  links Link[]
 }

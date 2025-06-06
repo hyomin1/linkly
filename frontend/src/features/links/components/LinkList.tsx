@@ -2,13 +2,13 @@ import { useGetLinks } from '../hooks/useGetLinks';
 import { useFavoriteLinks } from '../hooks/useFavoriteLinks';
 import { useDeleteLink } from '../hooks/useDeleteLink';
 import { useUpdateLink } from '../hooks/useUpdateLink';
-import LinkCard from './LinkCard';
-import LoadingSpinner from '../../../components/ui/LoadingSpinner';
-import ErrorMessage from '../../../components/ui/ErrorMessage';
-import EmptyState from '../../../components/ui/EmptyState';
+import LinkCard from './card/LinkCard';
+import LoadingSpinner from '../../../components/common/LoadingSpinner';
+import ErrorMessage from '../../../components/common/ErrorMessage';
+import EmptyState from '../../../components/common/EmptyState';
 import { useMemo } from 'react';
 import useDebounce from '../../../hooks/useDebounce';
-import type { Favorite } from '../../../types/link';
+import type { Favorite } from '../types/link';
 
 interface Props {
   type: Favorite;

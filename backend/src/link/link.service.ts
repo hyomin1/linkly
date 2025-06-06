@@ -16,9 +16,8 @@ export class LinkService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(dto: CreateLinkDto, userId: number): Promise<Link> {
-    const formattedUrl = dto.url.startsWith('http')
-      ? dto.url
-      : `https://${dto.url}`;
+    const { url, categoryId } = dto;
+    const formattedUrl = url.startsWith('http') ? url : `https://${url}`;
     const exists = await this.prisma.link.findUnique({
       where: { url: formattedUrl },
     });
@@ -40,6 +39,10 @@ export class LinkService {
         user: {
           connect: { id: userId },
         },
+        category:
+          typeof categoryId === 'number'
+            ? { connect: { id: categoryId } }
+            : undefined,
       },
     });
   }
@@ -77,9 +80,18 @@ export class LinkService {
       throw new ForbiddenException('수정 권한이 없습니다.');
     }
 
-    return this.prisma.link.update({
+    return await this.prisma.link.update({
       where: { id },
-      data: dto,
+      data: {
+        title: dto.title,
+        url: dto.url,
+        category:
+          dto.categoryId === null
+            ? { disconnect: true }
+            : dto.categoryId !== undefined
+              ? { connect: { id: dto.categoryId } }
+              : undefined,
+      },
     });
   }
 
