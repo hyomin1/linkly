@@ -1,24 +1,30 @@
 export default function LoginButtons() {
-  //const navigate = useNavigate();
   return (
     <div className='text-center space-y-3'>
       <button
         onClick={() =>
           (window.location.href = import.meta.env.VITE_GOOGLE_REDIRECT_URI)
         }
-        className='bg-white text-black font-medium px-4 py-2 rounded flex items-center gap-2 justify-center w-60 mx-auto'
+        className='w-60 h-[48px] mx-auto block rounded overflow-hidden hover:brightness-95 transition bg-white'
       >
-        <img src='/google-icon.svg' className='w-5 h-5' />
-        구글로 로그인
+        <img
+          src='/google-login.png'
+          alt='Sign in with Google'
+          className='w-full h-full object-contain'
+        />
       </button>
+
       <button
         onClick={() =>
           (window.location.href = import.meta.env.VITE_KAKAO_REDIRECT_URI)
         }
-        className='bg-yellow-400 hover:bg-yellow-500 text-black font-medium px-4 py-2 rounded flex items-center gap-2 justify-center w-60 mx-auto'
+        className='w-60 h-[48px] mx-auto block rounded overflow-hidden hover:brightness-95 transition bg-[#FEE500]'
       >
-        <img src='/kakao-icon.svg' className='w-5 h-5' />
-        카카오로 로그인
+        <img
+          src='/kakao-login.png'
+          alt='카카오 로그인'
+          className='w-full h-full object-contain'
+        />
       </button>
     </div>
   );
