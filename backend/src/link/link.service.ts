@@ -19,7 +19,12 @@ export class LinkService {
     const { url, categoryId } = dto;
     const formattedUrl = url.startsWith('http') ? url : `https://${url}`;
     const exists = await this.prisma.link.findUnique({
-      where: { url: formattedUrl },
+      where: {
+        userId_url: {
+          userId,
+          url: formattedUrl,
+        },
+      },
     });
 
     const metadata = await this.extractMetadata(formattedUrl);
@@ -50,7 +55,7 @@ export class LinkService {
   async getAllLinksByUserId(userId: number): Promise<Link[]> {
     return await this.prisma.link.findMany({
       where: { userId },
-      orderBy: [{ isFavorite: 'desc' }, { createdAt: 'desc' }],
+      orderBy: [{ categoryId: 'asc' }, { createdAt: 'desc' }],
     });
   }
 
@@ -125,7 +130,8 @@ export class LinkService {
 
       const title =
         getContent('meta[property="og:title"]') ??
-        ($('title').text().trim() || null);
+        ($('title').text().trim() || null) ??
+        new URL(url).hostname;
 
       const description =
         getContent('meta[property="og:description"]') ??
