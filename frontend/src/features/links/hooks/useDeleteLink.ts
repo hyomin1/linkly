@@ -9,6 +9,7 @@ export function useDeleteLink() {
     mutationFn: deleteLink,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['links'] });
+      queryClient.invalidateQueries({ queryKey: ['favoriteLinks'] });
       toast.success('링크가 삭제되었습니다!');
     },
     onError: () => {
